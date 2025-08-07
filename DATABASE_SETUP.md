@@ -5,11 +5,13 @@ This guide helps you set up a production database for your Hotel Reservation Pla
 ## 🎯 Database Options
 
 ### Option 1: PostgreSQL (Recommended)
+
 **Best for**: Production applications, complex queries, ACID compliance
 
 #### Free PostgreSQL Hosting Options:
 
 1. **Vercel Postgres** (Recommended)
+
    ```bash
    # After deploying to Vercel
    vercel env add DATABASE_URL
@@ -17,11 +19,13 @@ This guide helps you set up a production database for your Hotel Reservation Pla
    ```
 
 2. **Railway PostgreSQL**
+
    - Go to [railway.app](https://railway.app)
    - Create new project → Add PostgreSQL
    - Copy the DATABASE_URL from environment variables
 
 3. **Heroku Postgres**
+
    ```bash
    # If using Heroku
    heroku addons:create heroku-postgresql:mini
@@ -34,6 +38,7 @@ This guide helps you set up a production database for your Hotel Reservation Pla
    - Copy connection string
 
 #### Setup Steps:
+
 1. Get your PostgreSQL connection string
 2. Set environment variable:
    ```bash
@@ -47,6 +52,7 @@ This guide helps you set up a production database for your Hotel Reservation Pla
 ---
 
 ### Option 2: MongoDB (Alternative)
+
 **Best for**: Flexible schemas, document-based data, rapid development
 
 #### Free MongoDB Hosting:
@@ -57,6 +63,7 @@ This guide helps you set up a production database for your Hotel Reservation Pla
    - Copy the connection string
 
 #### Setup Steps:
+
 1. Get your MongoDB connection string
 2. Set environment variable:
    ```bash
@@ -70,6 +77,7 @@ This guide helps you set up a production database for your Hotel Reservation Pla
 ---
 
 ### Option 3: SQLite (Development Only)
+
 **Best for**: Local development, testing, prototyping
 
 - No setup required
@@ -81,6 +89,7 @@ This guide helps you set up a production database for your Hotel Reservation Pla
 ## 🔧 Platform-Specific Setup
 
 ### Vercel Deployment
+
 ```bash
 # 1. Set environment variables
 vercel env add DATABASE_URL
@@ -91,6 +100,7 @@ vercel --prod
 ```
 
 ### Railway Deployment
+
 ```bash
 # 1. Install Railway CLI
 npm install -g @railway/cli
@@ -105,6 +115,7 @@ railway add postgresql
 ```
 
 ### Heroku Deployment
+
 ```bash
 # 1. Create Heroku app
 heroku create your-hotel-app
@@ -117,6 +128,7 @@ git push heroku main
 ```
 
 ### Netlify (Frontend only)
+
 ```bash
 # Set environment variables in Netlify dashboard
 # Site settings → Environment variables
@@ -128,12 +140,14 @@ VITE_API_URL=https://your-backend-url.com/api
 ## 🛠️ Manual Database Setup
 
 ### PostgreSQL Manual Setup
+
 ```sql
 -- Connect to your PostgreSQL database and run:
 \i backend/scripts/setup-postgresql.sql
 ```
 
 ### MongoDB Manual Setup
+
 ```javascript
 // Run the setup script
 node backend/scripts/setupMongoDB.js
@@ -144,12 +158,14 @@ node backend/scripts/setupMongoDB.js
 ## 🔍 Testing Your Database
 
 ### Health Check
+
 ```bash
 # Test database connection
 curl https://your-app-url.com/health
 ```
 
 ### API Tests
+
 ```bash
 # Test user creation
 curl -X POST https://your-app-url.com/api/users \
@@ -197,11 +213,13 @@ Add these to your `package.json` scripts:
 ### Common Issues:
 
 1. **Connection Refused**
+
    - Check if DATABASE_URL is correct
    - Verify firewall/network settings
    - Ensure SSL configuration
 
 2. **Authentication Failed**
+
    - Verify username/password
    - Check database permissions
    - Confirm SSL requirements
@@ -212,6 +230,7 @@ Add these to your `package.json` scripts:
    - Verify schema creation
 
 ### Get Help:
+
 - Check application logs: `vercel logs` or `railway logs`
 - Test connection locally first
 - Verify environment variables are set correctly

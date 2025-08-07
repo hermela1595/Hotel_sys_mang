@@ -1,25 +1,27 @@
-const { Pool } = require('pg');
-require('dotenv').config();
+const { Pool } = require("pg");
+require("dotenv").config();
 
 async function setupPostgreSQLDatabase() {
-  console.log('🚀 Setting up PostgreSQL database...');
-  
+  console.log("🚀 Setting up PostgreSQL database...");
+
   if (!process.env.DATABASE_URL) {
-    console.error('❌ DATABASE_URL environment variable is required');
+    console.error("❌ DATABASE_URL environment variable is required");
     process.exit(1);
   }
 
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL.includes('localhost') ? false : {
-      rejectUnauthorized: false
-    }
+    ssl: process.env.DATABASE_URL.includes("localhost")
+      ? false
+      : {
+          rejectUnauthorized: false,
+        },
   });
 
   try {
     // Test connection
-    await pool.query('SELECT NOW()');
-    console.log('✅ Connected to PostgreSQL database');
+    await pool.query("SELECT NOW()");
+    console.log("✅ Connected to PostgreSQL database");
 
     // Create users table
     await pool.query(`
@@ -30,7 +32,7 @@ async function setupPostgreSQLDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('✅ Users table created/verified');
+    console.log("✅ Users table created/verified");
 
     // Create reservations table with UUID support
     await pool.query(`
@@ -45,7 +47,7 @@ async function setupPostgreSQLDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('✅ Reservations table created/verified');
+    console.log("✅ Reservations table created/verified");
 
     // Create indexes
     await pool.query(`
@@ -56,7 +58,7 @@ async function setupPostgreSQLDatabase() {
       CREATE INDEX IF NOT EXISTS idx_reservations_check_out ON reservations(check_out);
       CREATE INDEX IF NOT EXISTS idx_reservations_type ON reservations(type);
     `);
-    console.log('✅ Database indexes created/verified');
+    console.log("✅ Database indexes created/verified");
 
     // Verify tables exist
     const tablesResult = await pool.query(`
@@ -65,17 +67,19 @@ async function setupPostgreSQLDatabase() {
       WHERE table_schema = 'public' 
       AND table_name IN ('users', 'reservations')
     `);
-    
-    console.log('📊 Database tables:', tablesResult.rows.map(row => row.table_name));
-    
-    if (tablesResult.rows.length === 2) {
-      console.log('🎉 PostgreSQL database setup completed successfully!');
-    } else {
-      console.log('⚠️ Some tables may not have been created properly');
-    }
 
+    console.log(
+      "📊 Database tables:",
+      tablesResult.rows.map((row) => row.table_name)
+    );
+
+    if (tablesResult.rows.length === 2) {
+      console.log("🎉 PostgreSQL database setup completed successfully!");
+    } else {
+      console.log("⚠️ Some tables may not have been created properly");
+    }
   } catch (error) {
-    console.error('❌ Error setting up PostgreSQL database:', error);
+    console.error("❌ Error setting up PostgreSQL database:", error);
     throw error;
   } finally {
     await pool.end();
@@ -86,11 +90,11 @@ async function setupPostgreSQLDatabase() {
 if (require.main === module) {
   setupPostgreSQLDatabase()
     .then(() => {
-      console.log('✅ Database setup complete');
+      console.log("✅ Database setup complete");
       process.exit(0);
     })
     .catch((error) => {
-      console.error('❌ Database setup failed:', error);
+      console.error("❌ Database setup failed:", error);
       process.exit(1);
     });
 }

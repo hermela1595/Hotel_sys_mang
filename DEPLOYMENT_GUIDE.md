@@ -5,6 +5,7 @@ Your Hotel Reservation Platform is ready to go live! Choose your preferred deplo
 ## 🚀 Quick Deployment Options
 
 ### 1. Vercel (Recommended - Full Stack)
+
 **Best for**: Full-stack apps, automatic deployments, built-in database options
 
 ```bash
@@ -30,6 +31,7 @@ vercel env add MONGODB_URI
 ---
 
 ### 2. Railway (Full Stack + Database)
+
 **Best for**: Easy database setup, great for beginners
 
 ```bash
@@ -52,6 +54,7 @@ railway add postgresql
 ---
 
 ### 3. Heroku (Full Stack)
+
 **Best for**: Established platform, many add-ons
 
 ```bash
@@ -74,9 +77,11 @@ git push heroku main
 ---
 
 ### 4. Netlify (Frontend) + Separate Backend
+
 **Best for**: Frontend focus, separate backend hosting
 
 #### Frontend (Netlify):
+
 ```bash
 # 1. Build frontend
 cd frontend && npm run build
@@ -88,6 +93,7 @@ cd frontend && npm run build
 ```
 
 #### Backend (Railway/Heroku):
+
 Follow Railway or Heroku steps above for backend only.
 
 ---
@@ -97,12 +103,14 @@ Follow Railway or Heroku steps above for backend only.
 ### Option A: PostgreSQL (Recommended)
 
 #### Free PostgreSQL Providers:
+
 1. **Vercel Postgres** (if using Vercel)
 2. **Railway PostgreSQL** (if using Railway)
 3. **Heroku Postgres** (if using Heroku)
 4. **Supabase** - Get free account at [supabase.com](https://supabase.com)
 
 **Setup Steps:**
+
 ```bash
 # 1. Get your PostgreSQL connection string
 # Format: postgresql://username:password@hostname:port/database
@@ -117,9 +125,11 @@ npm run setup-postgresql
 ### Option B: MongoDB
 
 #### Free MongoDB:
+
 - **MongoDB Atlas** - Get free 500MB at [cloud.mongodb.com](https://cloud.mongodb.com)
 
 **Setup Steps:**
+
 ```bash
 # 1. Get your MongoDB connection string
 # Format: mongodb+srv://username:password@cluster.mongodb.net/database
@@ -136,6 +146,7 @@ npm run setup-mongodb
 ## ⚙️ Environment Variables
 
 ### Required Variables:
+
 ```bash
 NODE_ENV=production
 PORT=3001
@@ -154,24 +165,28 @@ STRIPE_SECRET_KEY=your_key
 ### Setting Environment Variables:
 
 **Vercel:**
+
 ```bash
 vercel env add DATABASE_URL
 vercel env add NODE_ENV production
 ```
 
 **Railway:**
+
 ```bash
 railway variables set DATABASE_URL=postgresql://...
 railway variables set NODE_ENV=production
 ```
 
 **Heroku:**
+
 ```bash
 heroku config:set DATABASE_URL=postgresql://...
 heroku config:set NODE_ENV=production
 ```
 
 **Netlify:**
+
 - Site settings → Environment variables in dashboard
 
 ---
@@ -191,11 +206,13 @@ heroku config:set NODE_ENV=production
 ## 🧪 Testing Your Live Application
 
 ### 1. Health Check
+
 ```bash
 curl https://your-app-url.com/health
 ```
 
 ### 2. Test API Endpoints
+
 ```bash
 # Create a user
 curl -X POST https://your-app-url.com/api/users \
@@ -212,6 +229,7 @@ curl "https://your-app-url.com/api/reservations/search?query=test@example.com"
 ```
 
 ### 3. Test Frontend
+
 - ✅ Homepage loads correctly
 - ✅ Book page accepts reservations
 - ✅ Search page finds reservations
@@ -225,6 +243,7 @@ curl "https://your-app-url.com/api/reservations/search?query=test@example.com"
 ### Common Issues:
 
 **1. Database Connection Errors**
+
 ```bash
 # Check logs
 vercel logs          # Vercel
@@ -238,16 +257,19 @@ heroku config        # Heroku
 ```
 
 **2. API Calls Failing**
+
 - Check CORS settings in backend/server.js
 - Verify API_URL in frontend environment
 - Ensure endpoints are correctly routed
 
 **3. Build Failures**
+
 - Check Node.js version compatibility
 - Verify all dependencies are installed
 - Review build logs for specific errors
 
 ### Getting Help:
+
 - Check deployment platform documentation
 - Review application logs
 - Test locally first with production environment variables
@@ -257,20 +279,24 @@ heroku config        # Heroku
 ## 🎉 Next Steps After Deployment
 
 1. **Custom Domain** (Optional)
+
    - Add your own domain in platform settings
    - Update DNS records as instructed
 
 2. **Monitoring & Analytics**
+
    - Set up error tracking (Sentry)
    - Add analytics (Google Analytics)
    - Monitor performance (Web Vitals)
 
 3. **Security Enhancements**
+
    - Add rate limiting
    - Implement authentication
    - Set up HTTPS redirects
 
 4. **Database Backups**
+
    - Configure automated backups
    - Test restoration procedures
    - Monitor database performance
