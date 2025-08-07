@@ -1,2 +1,11 @@
 node_modules
 .env
+.env.local
+.env.production
+*.log
+dist/
+build/
+*.sqlite
+*.db
+.DS_Store
+Thumbs.db
