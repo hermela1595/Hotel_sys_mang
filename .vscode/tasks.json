@@ -1,0 +1,79 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Development Servers",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Start Backend Only",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "backend"],
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Start Frontend Only",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "frontend"],
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Install All Dependencies",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "install-deps"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Setup Database",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "setup-db"],
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Frontend",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "build"],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+version: 2
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: $PORT
+    healthcheck:
+      path: /health
+      interval: 30s
+      timeout: 10s
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      VITE_API_URL: https://your-backend-url.railway.app/api
