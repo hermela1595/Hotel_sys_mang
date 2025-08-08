@@ -51,8 +51,19 @@ exports.createReservation = async (req, res) => {
             "Phone number is already associated with a different email address",
         });
       }
+
+      console.log("🔨 Creating new user with email:", email, "phone:", phone);
       user = await User.createUser(email, phone);
+      console.log("✅ User created:", user);
+
+      if (!user || !user.id) {
+        console.error("❌ User creation failed - no user or user.id returned");
+        return res.status(500).json({
+          error: "Failed to create user - please try again",
+        });
+      }
     } else {
+      console.log("✅ Found existing user:", user);
       // Verify phone matches
       if (user.phone !== phone) {
         return res.status(409).json({
@@ -61,6 +72,7 @@ exports.createReservation = async (req, res) => {
       }
     }
 
+    console.log("🎯 About to create reservation for user ID:", user.id);
     const reservation = await Reservation.createReservation(
       user.id,
       checkIn,

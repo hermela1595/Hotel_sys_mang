@@ -5,6 +5,8 @@ require("dotenv").config();
 
 const userRoutes = require("./routes/userRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
+const hotelRoutes = require("./routes/hotelRoutes");
+const roomRoutes = require("./routes/roomRoutes");
 
 const app = express();
 
@@ -16,6 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/reservations", reservationRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/rooms", roomRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
