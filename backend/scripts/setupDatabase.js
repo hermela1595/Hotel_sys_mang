@@ -40,16 +40,42 @@ const createTables = async () => {
     `);
     console.log("✅ Rooms table created/verified");
 
-    // Create users table (SQLite syntax)
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        phone VARCHAR(20) UNIQUE NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-    console.log("✅ Users table created/verified");
+    // Check if users table exists and has the new columns
+    const userSchema = await pool.query("PRAGMA table_info(users);");
+    const hasFirstName = userSchema.rows.some(
+      (col) => col.name === "first_name"
+    );
+
+    if (!hasFirstName) {
+      console.log("🔄 Updating users table schema...");
+
+      // Create new users table with name columns
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS users_new (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          first_name VARCHAR(100) NOT NULL,
+          last_name VARCHAR(100) NOT NULL,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          phone VARCHAR(20) UNIQUE NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+
+      // Copy existing data to new table (setting default names for existing users)
+      await pool.query(`
+        INSERT INTO users_new (id, first_name, last_name, email, phone, created_at)
+        SELECT id, 'Guest', 'User', email, phone, created_at 
+        FROM users;
+      `);
+
+      // Drop old table and rename new one
+      await pool.query("DROP TABLE users;");
+      await pool.query("ALTER TABLE users_new RENAME TO users;");
+
+      console.log("✅ Users table updated with name fields");
+    } else {
+      console.log("✅ Users table already has name fields");
+    }
 
     // Check if reservations table exists and has the new columns
     const reservationSchema = await pool.query(

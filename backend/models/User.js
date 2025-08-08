@@ -1,11 +1,11 @@
 const pool = require("../db");
 
 // Create a new user
-exports.createUser = async (email, phone) => {
+exports.createUser = async (firstName, lastName, email, phone) => {
   try {
     const result = await pool.query(
-      "INSERT INTO users (email, phone) VALUES (?, ?) RETURNING *",
-      [email, phone]
+      "INSERT INTO users (first_name, last_name, email, phone) VALUES (?, ?, ?, ?) RETURNING *",
+      [firstName, lastName, email, phone]
     );
     return result.rows[0];
   } catch (error) {

@@ -4,13 +4,35 @@ const User = require("../models/User");
 // Create a new reservation
 exports.createReservation = async (req, res) => {
   try {
-    const { email, phone, checkIn, checkOut, type } = req.body;
+    const { firstName, lastName, email, phone, checkIn, checkOut, type } =
+      req.body;
 
     // Validation
-    if (!email || !phone || !checkIn || !checkOut || !type) {
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !phone ||
+      !checkIn ||
+      !checkOut ||
+      !type
+    ) {
       return res.status(400).json({
         error:
-          "Email, phone, check-in date, check-out date, and type are required",
+          "First name, last name, email, phone, check-in date, check-out date, and type are required",
+      });
+    }
+
+    // Validate names
+    if (firstName.trim().length < 2) {
+      return res.status(400).json({
+        error: "First name must be at least 2 characters long",
+      });
+    }
+
+    if (lastName.trim().length < 2) {
+      return res.status(400).json({
+        error: "Last name must be at least 2 characters long",
       });
     }
 
@@ -52,8 +74,14 @@ exports.createReservation = async (req, res) => {
         });
       }
 
-      console.log("🔨 Creating new user with email:", email, "phone:", phone);
-      user = await User.createUser(email, phone);
+      console.log(
+        "🔨 Creating new user with:",
+        firstName,
+        lastName,
+        email,
+        phone
+      );
+      user = await User.createUser(firstName, lastName, email, phone);
       console.log("✅ User created:", user);
 
       if (!user || !user.id) {
@@ -85,6 +113,8 @@ exports.createReservation = async (req, res) => {
       reservation: {
         id: reservation.id,
         user: {
+          firstName: user.first_name,
+          lastName: user.last_name,
           email: user.email,
           phone: user.phone,
         },
@@ -116,10 +146,10 @@ exports.searchReservations = async (req, res) => {
       results: reservations.length,
       reservations: reservations.map((reservation) => ({
         id: reservation.id,
-        user: {
-          email: reservation.email,
-          phone: reservation.phone,
-        },
+        first_name: reservation.first_name,
+        last_name: reservation.last_name,
+        email: reservation.email,
+        phone: reservation.phone,
         check_in: reservation.check_in,
         check_out: reservation.check_out,
         type: reservation.type,

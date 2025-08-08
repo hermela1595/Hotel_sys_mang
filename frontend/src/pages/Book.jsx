@@ -1,9 +1,18 @@
 import { useState } from "react";
 import api from "../utils/api";
-import { Calendar, Mail, Phone, CheckCircle, AlertCircle } from "lucide-react";
+import {
+  Calendar,
+  Mail,
+  Phone,
+  CheckCircle,
+  AlertCircle,
+  User,
+} from "lucide-react";
 
 const Book = () => {
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     checkIn: "",
@@ -35,6 +44,8 @@ const Book = () => {
 
       // Reset form
       setFormData({
+        firstName: "",
+        lastName: "",
         email: "",
         phone: "",
         checkIn: "",
@@ -69,6 +80,56 @@ const Book = () => {
 
         <div className="card p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Personal Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                <User className="h-5 w-5 mr-2 text-primary-600" />
+                Personal Information
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="firstName"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
+                    minLength="2"
+                    className="input-field"
+                    placeholder="John"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="lastName"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                    minLength="2"
+                    className="input-field"
+                    placeholder="Doe"
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* Contact Information */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 flex items-center">

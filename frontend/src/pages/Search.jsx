@@ -6,6 +6,7 @@ import {
   Mail,
   Phone,
   AlertCircle,
+  User,
 } from "lucide-react";
 
 const Search = () => {
@@ -68,7 +69,7 @@ const Search = () => {
             Search Reservations
           </h1>
           <p className="text-lg text-gray-600">
-            Find reservations by email, phone, reservation ID, or date
+            Find reservations by name, email, phone, reservation ID, or date
           </p>
         </div>
 
@@ -85,7 +86,7 @@ const Search = () => {
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Enter email, phone, reservation ID, or date (YYYY-MM-DD)"
+                  placeholder="Enter name, email, phone, reservation ID, or date (YYYY-MM-DD)"
                   className="input-field pl-10"
                 />
               </div>
@@ -139,7 +140,7 @@ const Search = () => {
                   No reservations found
                 </h3>
                 <p className="text-gray-600">
-                  Try searching with a different email, phone number,
+                  Try searching with a different name, email, phone number,
                   reservation ID, or date.
                 </p>
               </div>
@@ -159,18 +160,26 @@ const Search = () => {
                           </p>
                         </div>
 
+                        {/* Guest Name */}
+                        <div className="flex items-center">
+                          <User className="h-4 w-4 text-gray-400 mr-2" />
+                          <span className="text-sm font-medium text-gray-900">
+                            {reservation.first_name} {reservation.last_name}
+                          </span>
+                        </div>
+
                         {/* Contact Info */}
                         <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0">
                           <div className="flex items-center">
                             <Mail className="h-4 w-4 text-gray-400 mr-2" />
                             <span className="text-sm text-gray-600">
-                              {reservation.user.email}
+                              {reservation.email}
                             </span>
                           </div>
                           <div className="flex items-center">
                             <Phone className="h-4 w-4 text-gray-400 mr-2" />
                             <span className="text-sm text-gray-600">
-                              {reservation.user.phone}
+                              {reservation.phone}
                             </span>
                           </div>
                         </div>

@@ -75,14 +75,16 @@ curl http://localhost:5000/api/health
 # Create a user
 curl -X POST http://localhost:5000/api/users \
   -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","phone":"+1234567890"}'
+  -d '{"firstName":"John","lastName":"Doe","email":"test@example.com","phone":"+1234567890"}'
 
 # Create a reservation
 curl -X POST http://localhost:5000/api/reservations \
   -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","phone":"+1234567890","checkIn":"2024-12-01","checkOut":"2024-12-03","type":"daily"}'
+  -d '{"firstName":"John","lastName":"Doe","email":"test@example.com","phone":"+1234567890","checkIn":"2024-12-01","checkOut":"2024-12-03","type":"daily"}'
 
-# Search reservations
+# Search reservations (by name, email, phone, or ID)
+curl "http://localhost:5000/api/reservations/search?query=John"
+curl "http://localhost:5000/api/reservations/search?query=John%20Doe"
 curl "http://localhost:5000/api/reservations/search?query=test@example.com"
 ```
 
@@ -216,9 +218,11 @@ npm run install-deps
 
 ## 🎉 Features Ready to Use
 
-- ✅ **User Registration** (email + phone)
+- ✅ **User Registration** (first name, last name, email + phone)
 - ✅ **Reservation Creation** (daily/weekly/monthly)
-- ✅ **Reservation Search** (by email, phone, or ID)
+- ✅ **Reservation Search** (by name, email, phone, or ID)
+- ✅ **Hotel Management** (CRUD operations for hotels)
+- ✅ **Room Management** (CRUD operations and availability search)
 - ✅ **Responsive Design** (mobile-first)
 - ✅ **Error Handling** (user-friendly messages)
 - ✅ **Data Validation** (client and server-side)

@@ -31,12 +31,23 @@ exports.createReservation = async (userId, checkIn, checkOut, type) => {
 exports.searchReservations = async (query) => {
   try {
     const result = await pool.query(
-      `SELECT r.*, u.email, u.phone FROM reservations r
+      `SELECT r.*, u.first_name, u.last_name, u.email, u.phone FROM reservations r
        JOIN users u ON r.user_id = u.id
        WHERE u.phone LIKE ? OR u.email LIKE ? OR r.id = ?
        OR r.check_in = ? OR r.check_out = ?
+       OR u.first_name LIKE ? OR u.last_name LIKE ?
+       OR (u.first_name || ' ' || u.last_name) LIKE ?
        ORDER BY r.created_at DESC`,
-      [`%${query}%`, `%${query}%`, query, query, query]
+      [
+        `%${query}%`,
+        `%${query}%`,
+        query,
+        query,
+        query,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+      ]
     );
     return result.rows;
   } catch (error) {
@@ -48,7 +59,7 @@ exports.searchReservations = async (query) => {
 exports.getReservationById = async (id) => {
   try {
     const result = await pool.query(
-      `SELECT r.*, u.email, u.phone FROM reservations r
+      `SELECT r.*, u.first_name, u.last_name, u.email, u.phone FROM reservations r
        JOIN users u ON r.user_id = u.id
        WHERE r.id = ?`,
       [id]
@@ -76,7 +87,7 @@ exports.getReservationsByUserId = async (userId) => {
 exports.getAllReservations = async () => {
   try {
     const result = await pool.query(
-      `SELECT r.*, u.email, u.phone FROM reservations r
+      `SELECT r.*, u.first_name, u.last_name, u.email, u.phone FROM reservations r
        JOIN users u ON r.user_id = u.id
        ORDER BY r.created_at DESC`
     );
