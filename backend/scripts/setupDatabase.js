@@ -52,12 +52,16 @@ const createTables = async () => {
     console.log("✅ Users table created/verified");
 
     // Check if reservations table exists and has the new columns
-    const reservationSchema = await pool.query('PRAGMA table_info(reservations);');
-    const hasRoomId = reservationSchema.rows.some(col => col.name === 'room_id');
-    
+    const reservationSchema = await pool.query(
+      "PRAGMA table_info(reservations);"
+    );
+    const hasRoomId = reservationSchema.rows.some(
+      (col) => col.name === "room_id"
+    );
+
     if (!hasRoomId) {
       console.log("🔄 Updating reservations table schema...");
-      
+
       // Create new reservations table with all columns
       await pool.query(`
         CREATE TABLE IF NOT EXISTS reservations_new (
@@ -78,18 +82,18 @@ const createTables = async () => {
           FOREIGN KEY (hotel_id) REFERENCES hotels(id) ON DELETE CASCADE
         );
       `);
-      
+
       // Copy existing data to new table
       await pool.query(`
         INSERT INTO reservations_new (id, user_id, check_in, check_out, type, created_at)
         SELECT id, user_id, check_in, check_out, type, created_at 
         FROM reservations;
       `);
-      
+
       // Drop old table and rename new one
-      await pool.query('DROP TABLE reservations;');
-      await pool.query('ALTER TABLE reservations_new RENAME TO reservations;');
-      
+      await pool.query("DROP TABLE reservations;");
+      await pool.query("ALTER TABLE reservations_new RENAME TO reservations;");
+
       console.log("✅ Reservations table updated with new schema");
     } else {
       console.log("✅ Reservations table already has updated schema");

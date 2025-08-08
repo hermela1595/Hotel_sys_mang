@@ -1,7 +1,16 @@
 const pool = require("../db");
 
 // Create a new hotel
-exports.createHotel = async (name, address, city, country, phone, email, stars, description) => {
+exports.createHotel = async (
+  name,
+  address,
+  city,
+  country,
+  phone,
+  email,
+  stars,
+  description
+) => {
   try {
     const result = await pool.query(
       `INSERT INTO hotels (name, address, city, country, phone, email, stars, description) 
@@ -37,7 +46,17 @@ exports.getHotelById = async (id) => {
 };
 
 // Update hotel
-exports.updateHotel = async (id, name, address, city, country, phone, email, stars, description) => {
+exports.updateHotel = async (
+  id,
+  name,
+  address,
+  city,
+  country,
+  phone,
+  email,
+  stars,
+  description
+) => {
   try {
     const result = await pool.query(
       `UPDATE hotels 
@@ -55,7 +74,7 @@ exports.updateHotel = async (id, name, address, city, country, phone, email, sta
 exports.deleteHotel = async (id) => {
   try {
     const result = await pool.query(
-      'DELETE FROM hotels WHERE id = ? RETURNING *',
+      "DELETE FROM hotels WHERE id = ? RETURNING *",
       [id]
     );
     return result.rows[0];

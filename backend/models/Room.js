@@ -1,12 +1,28 @@
 const pool = require("../db");
 
 // Create a new room
-exports.createRoom = async (hotel_id, room_number, room_type, price_per_night, capacity, amenities, description) => {
+exports.createRoom = async (
+  hotel_id,
+  room_number,
+  room_type,
+  price_per_night,
+  capacity,
+  amenities,
+  description
+) => {
   try {
     const result = await pool.query(
       `INSERT INTO rooms (hotel_id, room_number, room_type, price_per_night, capacity, amenities, description) 
        VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING *`,
-      [hotel_id, room_number, room_type, price_per_night, capacity, amenities, description]
+      [
+        hotel_id,
+        room_number,
+        room_type,
+        price_per_night,
+        capacity,
+        amenities,
+        description,
+      ]
     );
     return result.rows[0];
   } catch (error) {
@@ -63,13 +79,31 @@ exports.getRoomById = async (id) => {
 };
 
 // Update room
-exports.updateRoom = async (id, room_number, room_type, price_per_night, capacity, amenities, description, is_available) => {
+exports.updateRoom = async (
+  id,
+  room_number,
+  room_type,
+  price_per_night,
+  capacity,
+  amenities,
+  description,
+  is_available
+) => {
   try {
     const result = await pool.query(
       `UPDATE rooms 
        SET room_number = ?, room_type = ?, price_per_night = ?, capacity = ?, amenities = ?, description = ?, is_available = ?
        WHERE id = ? RETURNING *`,
-      [room_number, room_type, price_per_night, capacity, amenities, description, is_available, id]
+      [
+        room_number,
+        room_type,
+        price_per_night,
+        capacity,
+        amenities,
+        description,
+        is_available,
+        id,
+      ]
     );
     return result.rows[0];
   } catch (error) {
@@ -81,7 +115,7 @@ exports.updateRoom = async (id, room_number, room_type, price_per_night, capacit
 exports.deleteRoom = async (id) => {
   try {
     const result = await pool.query(
-      'DELETE FROM rooms WHERE id = ? RETURNING *',
+      "DELETE FROM rooms WHERE id = ? RETURNING *",
       [id]
     );
     return result.rows[0];
@@ -105,16 +139,16 @@ exports.searchAvailableRooms = async (check_in, check_out, capacity, city) => {
         AND status != 'cancelled'
       )
     `;
-    
+
     let params = [capacity || 1, check_out, check_in];
-    
+
     if (city) {
       query += ` AND h.city LIKE ?`;
       params.push(`%${city}%`);
     }
-    
+
     query += ` ORDER BY h.city, h.name, r.room_number`;
-    
+
     const result = await pool.query(query, params);
     return result.rows;
   } catch (error) {

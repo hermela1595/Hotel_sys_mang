@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
-import { 
-  Building2, 
-  MapPin, 
-  Star, 
-  Phone, 
-  Mail, 
+import {
+  Building2,
+  MapPin,
+  Star,
+  Phone,
+  Mail,
   Plus,
   Edit3,
   Trash2,
-  Search
+  Search,
 } from "lucide-react";
 
 const Hotels = () => {
@@ -28,7 +28,7 @@ const Hotels = () => {
     phone: "",
     email: "",
     stars: 3,
-    description: ""
+    description: "",
   });
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const Hotels = () => {
       } else {
         await api.post("/hotels", formData);
       }
-      
+
       resetForm();
       fetchHotels();
     } catch (error) {
@@ -78,7 +78,7 @@ const Hotels = () => {
       phone: hotel.phone,
       email: hotel.email,
       stars: hotel.stars,
-      description: hotel.description || ""
+      description: hotel.description || "",
     });
     setShowForm(true);
   };
@@ -103,7 +103,9 @@ const Hotels = () => {
 
     setLoading(true);
     try {
-      const response = await api.get(`/hotels/search?query=${encodeURIComponent(searchQuery)}`);
+      const response = await api.get(
+        `/hotels/search?query=${encodeURIComponent(searchQuery)}`
+      );
       setHotels(response.data.hotels);
     } catch (error) {
       setError("Failed to search hotels");
@@ -121,7 +123,7 @@ const Hotels = () => {
       phone: "",
       email: "",
       stars: 3,
-      description: ""
+      description: "",
     });
     setEditingHotel(null);
     setShowForm(false);
@@ -143,8 +145,10 @@ const Hotels = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Hotel Management</h1>
-          
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            Hotel Management
+          </h1>
+
           {/* Search and Add Button */}
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <form onSubmit={handleSearch} className="flex-1">
@@ -182,7 +186,10 @@ const Hotels = () => {
             <h2 className="text-xl font-semibold mb-4">
               {editingHotel ? "Edit Hotel" : "Add New Hotel"}
             </h2>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Hotel Name *
@@ -191,7 +198,9 @@ const Hotels = () => {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -204,7 +213,9 @@ const Hotels = () => {
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -217,7 +228,9 @@ const Hotels = () => {
                   type="text"
                   required
                   value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -230,7 +243,9 @@ const Hotels = () => {
                   type="text"
                   required
                   value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, city: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -243,7 +258,9 @@ const Hotels = () => {
                   type="text"
                   required
                   value={formData.country}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, country: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -256,7 +273,9 @@ const Hotels = () => {
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -267,11 +286,18 @@ const Hotels = () => {
                 </label>
                 <select
                   value={formData.stars}
-                  onChange={(e) => setFormData({ ...formData, stars: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      stars: parseInt(e.target.value),
+                    })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 >
-                  {[1, 2, 3, 4, 5].map(num => (
-                    <option key={num} value={num}>{num} Star{num > 1 ? 's' : ''}</option>
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <option key={num} value={num}>
+                      {num} Star{num > 1 ? "s" : ""}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -282,7 +308,9 @@ const Hotels = () => {
                 </label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   rows={3}
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   placeholder="Brief description of the hotel..."
@@ -295,7 +323,11 @@ const Hotels = () => {
                   disabled={loading}
                   className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg font-medium"
                 >
-                  {loading ? "Saving..." : editingHotel ? "Update Hotel" : "Add Hotel"}
+                  {loading
+                    ? "Saving..."
+                    : editingHotel
+                    ? "Update Hotel"
+                    : "Add Hotel"}
                 </button>
                 <button
                   type="button"
@@ -323,10 +355,15 @@ const Hotels = () => {
             </div>
           ) : (
             hotels.map((hotel) => (
-              <div key={hotel.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div
+                key={hotel.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden"
+              >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">{hotel.name}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {hotel.name}
+                    </h3>
                     <div className="flex items-center gap-1">
                       {renderStars(hotel.stars)}
                     </div>
@@ -335,7 +372,9 @@ const Hotels = () => {
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center gap-2 text-gray-600">
                       <MapPin className="h-4 w-4" />
-                      <span className="text-sm">{hotel.city}, {hotel.country}</span>
+                      <span className="text-sm">
+                        {hotel.city}, {hotel.country}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                       <Phone className="h-4 w-4" />

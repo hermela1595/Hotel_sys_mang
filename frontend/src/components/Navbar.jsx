@@ -23,7 +23,9 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <Hotel className="h-8 w-8 text-primary-600" />
-              <span className=" text-3xl font-bold text-gray-900">MK HOTEL</span>
+              <span className=" text-3xl font-bold text-gray-900">
+                MK HOTEL
+              </span>
             </Link>
           </div>
 

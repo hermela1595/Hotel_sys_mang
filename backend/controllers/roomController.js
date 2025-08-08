@@ -4,12 +4,27 @@ const Hotel = require("../models/Hotel");
 // Create a new room
 exports.createRoom = async (req, res) => {
   try {
-    const { hotel_id, room_number, room_type, price_per_night, capacity, amenities, description } = req.body;
+    const {
+      hotel_id,
+      room_number,
+      room_type,
+      price_per_night,
+      capacity,
+      amenities,
+      description,
+    } = req.body;
 
     // Validation
-    if (!hotel_id || !room_number || !room_type || !price_per_night || !capacity) {
+    if (
+      !hotel_id ||
+      !room_number ||
+      !room_type ||
+      !price_per_night ||
+      !capacity
+    ) {
       return res.status(400).json({
-        error: "Hotel ID, room number, room type, price per night, and capacity are required"
+        error:
+          "Hotel ID, room number, room type, price per night, and capacity are required",
       });
     }
 
@@ -21,7 +36,9 @@ exports.createRoom = async (req, res) => {
 
     // Validate price and capacity
     if (price_per_night <= 0) {
-      return res.status(400).json({ error: "Price per night must be greater than 0" });
+      return res
+        .status(400)
+        .json({ error: "Price per night must be greater than 0" });
     }
 
     if (capacity <= 0) {
@@ -29,13 +46,18 @@ exports.createRoom = async (req, res) => {
     }
 
     const room = await Room.createRoom(
-      hotel_id, room_number, room_type, price_per_night, capacity, 
-      amenities || "", description || ""
+      hotel_id,
+      room_number,
+      room_type,
+      price_per_night,
+      capacity,
+      amenities || "",
+      description || ""
     );
 
     res.status(201).json({
       message: "Room created successfully",
-      room
+      room,
     });
   } catch (error) {
     console.error("Error creating room:", error);
@@ -87,7 +109,15 @@ exports.getRoomById = async (req, res) => {
 exports.updateRoom = async (req, res) => {
   try {
     const { id } = req.params;
-    const { room_number, room_type, price_per_night, capacity, amenities, description, is_available } = req.body;
+    const {
+      room_number,
+      room_type,
+      price_per_night,
+      capacity,
+      amenities,
+      description,
+      is_available,
+    } = req.body;
 
     // Check if room exists
     const existingRoom = await Room.getRoomById(id);
@@ -98,12 +128,15 @@ exports.updateRoom = async (req, res) => {
     // Validation
     if (!room_number || !room_type || !price_per_night || !capacity) {
       return res.status(400).json({
-        error: "Room number, room type, price per night, and capacity are required"
+        error:
+          "Room number, room type, price per night, and capacity are required",
       });
     }
 
     if (price_per_night <= 0) {
-      return res.status(400).json({ error: "Price per night must be greater than 0" });
+      return res
+        .status(400)
+        .json({ error: "Price per night must be greater than 0" });
     }
 
     if (capacity <= 0) {
@@ -111,13 +144,19 @@ exports.updateRoom = async (req, res) => {
     }
 
     const room = await Room.updateRoom(
-      id, room_number, room_type, price_per_night, capacity, 
-      amenities, description, is_available !== undefined ? is_available : true
+      id,
+      room_number,
+      room_type,
+      price_per_night,
+      capacity,
+      amenities,
+      description,
+      is_available !== undefined ? is_available : true
     );
 
     res.json({
       message: "Room updated successfully",
-      room
+      room,
     });
   } catch (error) {
     console.error("Error updating room:", error);
@@ -139,7 +178,7 @@ exports.deleteRoom = async (req, res) => {
     await Room.deleteRoom(id);
 
     res.json({
-      message: "Room deleted successfully"
+      message: "Room deleted successfully",
     });
   } catch (error) {
     console.error("Error deleting room:", error);
@@ -153,7 +192,9 @@ exports.searchAvailableRooms = async (req, res) => {
     const { check_in, check_out, capacity, city } = req.query;
 
     if (!check_in || !check_out) {
-      return res.status(400).json({ error: "Check-in and check-out dates are required" });
+      return res
+        .status(400)
+        .json({ error: "Check-in and check-out dates are required" });
     }
 
     // Validate dates
@@ -163,14 +204,23 @@ exports.searchAvailableRooms = async (req, res) => {
     today.setHours(0, 0, 0, 0);
 
     if (checkInDate < today) {
-      return res.status(400).json({ error: "Check-in date cannot be in the past" });
+      return res
+        .status(400)
+        .json({ error: "Check-in date cannot be in the past" });
     }
 
     if (checkOutDate <= checkInDate) {
-      return res.status(400).json({ error: "Check-out date must be after check-in date" });
+      return res
+        .status(400)
+        .json({ error: "Check-out date must be after check-in date" });
     }
 
-    const rooms = await Room.searchAvailableRooms(check_in, check_out, capacity, city);
+    const rooms = await Room.searchAvailableRooms(
+      check_in,
+      check_out,
+      capacity,
+      city
+    );
 
     res.json({
       message: `Found ${rooms.length} available room(s)`,
@@ -179,8 +229,8 @@ exports.searchAvailableRooms = async (req, res) => {
         check_in,
         check_out,
         capacity: capacity || 1,
-        city: city || "Any city"
-      }
+        city: city || "Any city",
+      },
     });
   } catch (error) {
     console.error("Error searching rooms:", error);

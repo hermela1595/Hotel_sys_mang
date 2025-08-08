@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
-import { 
-  Bed, 
-  Users, 
-  DollarSign, 
+import {
+  Bed,
+  Users,
+  DollarSign,
   Wifi,
   Plus,
   Edit3,
   Trash2,
   Search,
   Building2,
-  Filter
+  Filter,
 } from "lucide-react";
 
 const Rooms = () => {
@@ -30,14 +30,14 @@ const Rooms = () => {
     capacity: "",
     amenities: "",
     description: "",
-    is_available: true
+    is_available: true,
   });
 
   const [searchCriteria, setSearchCriteria] = useState({
     check_in: "",
     check_out: "",
     capacity: "",
-    city: ""
+    city: "",
   });
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const Rooms = () => {
         ...formData,
         price_per_night: parseFloat(formData.price_per_night),
         capacity: parseInt(formData.capacity),
-        hotel_id: parseInt(formData.hotel_id)
+        hotel_id: parseInt(formData.hotel_id),
       };
 
       if (editingRoom) {
@@ -84,7 +84,7 @@ const Rooms = () => {
       } else {
         await api.post("/rooms", roomData);
       }
-      
+
       resetForm();
       fetchRooms();
     } catch (error) {
@@ -104,7 +104,7 @@ const Rooms = () => {
       capacity: room.capacity.toString(),
       amenities: room.amenities || "",
       description: room.description || "",
-      is_available: room.is_available
+      is_available: room.is_available,
     });
     setShowForm(true);
   };
@@ -122,7 +122,7 @@ const Rooms = () => {
 
   const handleSearchAvailable = async (e) => {
     e.preventDefault();
-    
+
     if (!searchCriteria.check_in || !searchCriteria.check_out) {
       setError("Please enter check-in and check-out dates");
       return;
@@ -170,27 +170,43 @@ const Rooms = () => {
       capacity: "",
       amenities: "",
       description: "",
-      is_available: true
+      is_available: true,
     });
     setEditingRoom(null);
     setShowForm(false);
   };
 
-  const roomTypes = ["Standard", "Deluxe", "Suite", "Executive", "Family", "Ocean View", "Mountain View", "Beach Front"];
+  const roomTypes = [
+    "Standard",
+    "Deluxe",
+    "Suite",
+    "Executive",
+    "Family",
+    "Ocean View",
+    "Mountain View",
+    "Beach Front",
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Room Management</h1>
-          
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            Room Management
+          </h1>
+
           {/* Search and Filter Section */}
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
             {/* Available Room Search */}
             <div className="mb-6">
-              <h3 className="text-lg font-medium mb-4">Search Available Rooms</h3>
-              <form onSubmit={handleSearchAvailable} className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <h3 className="text-lg font-medium mb-4">
+                Search Available Rooms
+              </h3>
+              <form
+                onSubmit={handleSearchAvailable}
+                className="grid grid-cols-1 md:grid-cols-5 gap-4"
+              >
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Check-in Date
@@ -198,7 +214,12 @@ const Rooms = () => {
                   <input
                     type="date"
                     value={searchCriteria.check_in}
-                    onChange={(e) => setSearchCriteria({ ...searchCriteria, check_in: e.target.value })}
+                    onChange={(e) =>
+                      setSearchCriteria({
+                        ...searchCriteria,
+                        check_in: e.target.value,
+                      })
+                    }
                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
@@ -209,7 +230,12 @@ const Rooms = () => {
                   <input
                     type="date"
                     value={searchCriteria.check_out}
-                    onChange={(e) => setSearchCriteria({ ...searchCriteria, check_out: e.target.value })}
+                    onChange={(e) =>
+                      setSearchCriteria({
+                        ...searchCriteria,
+                        check_out: e.target.value,
+                      })
+                    }
                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
@@ -221,7 +247,12 @@ const Rooms = () => {
                     type="number"
                     min="1"
                     value={searchCriteria.capacity}
-                    onChange={(e) => setSearchCriteria({ ...searchCriteria, capacity: e.target.value })}
+                    onChange={(e) =>
+                      setSearchCriteria({
+                        ...searchCriteria,
+                        capacity: e.target.value,
+                      })
+                    }
                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     placeholder="1"
                   />
@@ -233,7 +264,12 @@ const Rooms = () => {
                   <input
                     type="text"
                     value={searchCriteria.city}
-                    onChange={(e) => setSearchCriteria({ ...searchCriteria, city: e.target.value })}
+                    onChange={(e) =>
+                      setSearchCriteria({
+                        ...searchCriteria,
+                        city: e.target.value,
+                      })
+                    }
                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     placeholder="Any city"
                   />
@@ -265,7 +301,7 @@ const Rooms = () => {
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="">All Hotels</option>
-                  {hotels.map(hotel => (
+                  {hotels.map((hotel) => (
                     <option key={hotel.id} value={hotel.id}>
                       {hotel.name} - {hotel.city}
                     </option>
@@ -298,7 +334,10 @@ const Rooms = () => {
             <h2 className="text-xl font-semibold mb-4">
               {editingRoom ? "Edit Room" : "Add New Room"}
             </h2>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Hotel *
@@ -306,11 +345,13 @@ const Rooms = () => {
                 <select
                   required
                   value={formData.hotel_id}
-                  onChange={(e) => setFormData({ ...formData, hotel_id: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, hotel_id: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="">Select a hotel</option>
-                  {hotels.map(hotel => (
+                  {hotels.map((hotel) => (
                     <option key={hotel.id} value={hotel.id}>
                       {hotel.name} - {hotel.city}
                     </option>
@@ -326,7 +367,9 @@ const Rooms = () => {
                   type="text"
                   required
                   value={formData.room_number}
-                  onChange={(e) => setFormData({ ...formData, room_number: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, room_number: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   placeholder="e.g., 101, 2A, etc."
                 />
@@ -339,12 +382,16 @@ const Rooms = () => {
                 <select
                   required
                   value={formData.room_type}
-                  onChange={(e) => setFormData({ ...formData, room_type: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, room_type: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="">Select room type</option>
-                  {roomTypes.map(type => (
-                    <option key={type} value={type}>{type}</option>
+                  {roomTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -359,7 +406,12 @@ const Rooms = () => {
                   min="0"
                   required
                   value={formData.price_per_night}
-                  onChange={(e) => setFormData({ ...formData, price_per_night: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      price_per_night: e.target.value,
+                    })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -373,7 +425,9 @@ const Rooms = () => {
                   min="1"
                   required
                   value={formData.capacity}
-                  onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, capacity: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -383,10 +437,15 @@ const Rooms = () => {
                   type="checkbox"
                   id="is_available"
                   checked={formData.is_available}
-                  onChange={(e) => setFormData({ ...formData, is_available: e.target.checked })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, is_available: e.target.checked })
+                  }
                   className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
-                <label htmlFor="is_available" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="is_available"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   Room is available for booking
                 </label>
               </div>
@@ -398,7 +457,9 @@ const Rooms = () => {
                 <input
                   type="text"
                   value={formData.amenities}
-                  onChange={(e) => setFormData({ ...formData, amenities: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, amenities: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   placeholder="e.g., WiFi, TV, AC, Mini Bar, Balcony"
                 />
@@ -410,7 +471,9 @@ const Rooms = () => {
                 </label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   rows={3}
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   placeholder="Brief description of the room..."
@@ -423,7 +486,11 @@ const Rooms = () => {
                   disabled={loading}
                   className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg font-medium"
                 >
-                  {loading ? "Saving..." : editingRoom ? "Update Room" : "Add Room"}
+                  {loading
+                    ? "Saving..."
+                    : editingRoom
+                    ? "Update Room"
+                    : "Add Room"}
                 </button>
                 <button
                   type="button"
@@ -451,7 +518,10 @@ const Rooms = () => {
             </div>
           ) : (
             rooms.map((room) => (
-              <div key={room.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div
+                key={room.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden"
+              >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
@@ -459,14 +529,18 @@ const Rooms = () => {
                         Room {room.room_number}
                       </h3>
                       <p className="text-sm text-gray-600">{room.hotel_name}</p>
-                      <p className="text-xs text-gray-500">{room.city}, {room.country}</p>
+                      <p className="text-xs text-gray-500">
+                        {room.city}, {room.country}
+                      </p>
                     </div>
-                    <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      room.is_available 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
-                    }`}>
-                      {room.is_available ? 'Available' : 'Occupied'}
+                    <div
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        room.is_available
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {room.is_available ? "Available" : "Occupied"}
                     </div>
                   </div>
 
@@ -477,11 +551,15 @@ const Rooms = () => {
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                       <Users className="h-4 w-4" />
-                      <span className="text-sm">Capacity: {room.capacity} guests</span>
+                      <span className="text-sm">
+                        Capacity: {room.capacity} guests
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                       <DollarSign className="h-4 w-4" />
-                      <span className="text-sm font-medium">${room.price_per_night}/night</span>
+                      <span className="text-sm font-medium">
+                        ${room.price_per_night}/night
+                      </span>
                     </div>
                   </div>
 
@@ -499,9 +577,7 @@ const Rooms = () => {
                   )}
 
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-gray-500">
-                      ID: {room.id}
-                    </span>
+                    <span className="text-xs text-gray-500">ID: {room.id}</span>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEdit(room)}
